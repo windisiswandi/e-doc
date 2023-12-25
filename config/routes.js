@@ -1,75 +1,26 @@
-const {
-  getUsers,
-  getUserById,
-  insertUser,
-  updateDataUser,
-  deleteUser
-} = require('../controller/user');
+const { getUsers, getUserById, insertUser, updateDataUser, deleteUser } = require('../controller/user');
 
-const {
-  getReviews,
-  getReviewById,
-  insertReview,
-  updateDataReview,
-  deleteReview
-} = require('../controller/review');
+const { getReviews, getReviewById, insertReview, updateDataReview, deleteReview } = require('../controller/review');
 
-const {
-  getCategories,
-  getCategoryById,
-  insertCategory,
-  updateCategory,
-  deleteCategory
-} = require('../controller/category');
+const { getCategories, getCategoryById, insertCategory, updateCategory, deleteCategory } = require('../controller/category');
 
-const {
-  getHasCategories,
-  getHasCategoryById,
-  insertHasCategory,
-  updateDataHasCategory,
-  deleteHasCategory
-} = require('../controller/has-category');
+const { getHasCategories, getHasCategoryById, insertHasCategory, updateDataHasCategory, deleteHasCategory } = require('../controller/has-category');
 
-const {
-  getContents,
-  getContentById,
-  searchContent,
-  searchContentByImage,
-  insertContent,
-  updateContent,
-  deleteContent
-} = require('../controller/content');
+const { getContents, getContentById, searchContent, searchContentByImage, insertContent, updateContent, deleteContent } = require('../controller/content');
 
-const {
-  getContentViewLogs,
-  getContentViewLogById,
-  insertContentViewLog,
-} = require('../controller/content-view-log');
+const { getContentViewLogs, getContentViewLogById, insertContentViewLog } = require('../controller/content-view-log');
 
-const {
-  getContentReactionLogByIDContent,
-  insertContentReactionLog,
-  updateContentReactionLog,
-} = require('../controller/content-reaction-log');
+const { getContentReactionLogByIDContent, insertContentReactionLog, updateContentReactionLog } = require('../controller/content-reaction-log');
 
-const {
-  getBanner,
-  getBannerById,
-  insertBanner,
-  updateBanner,
-  deleteBanner
-} = require('../controller/banner');
+const { getBanner, getBannerById, insertBanner, updateBanner, deleteBanner } = require('../controller/banner');
 
-const {
-  home
-} = require('../controller/home')
+const { home } = require('../controller/home');
 
-const { authLogin, register } = require('../controller/auth')
-const { verifyUser } = require('./middleware')
-const {get_image_search, get_files_content, process_image, upload_to_bucket} = require('../helper/image-handler');
+const { authLogin, register } = require('../controller/auth');
+const { verifyUser } = require('./middleware');
+const { get_image_search, get_files_content, process_image, upload_to_bucket } = require('../helper/image-handler');
 
-const base_url = '/api/v1'
-
+const base_url = '/api/v1';
 
 module.exports = (app) => {
   //user
@@ -104,8 +55,8 @@ module.exports = (app) => {
   app.get(`${base_url}/contents`, getContents);
   app.get(`${base_url}/contents/:id`, getContentById);
   app.get(`${base_url}/contents/search/:keyword`, searchContent);
-  app.post(`${base_url}/contents/search`, get_image_search, process_image, searchContentByImage);
-  app.post(`${base_url}/contents`,get_files_content, upload_to_bucket, insertContent);
+  app.post(`${base_url}/contents/search`, get_image_search, searchContentByImage);
+  app.post(`${base_url}/contents`, get_files_content, upload_to_bucket, insertContent);
   app.put(`${base_url}/contents/:id`, updateContent);
   app.delete(`${base_url}/contents/:id`, deleteContent);
 
@@ -128,17 +79,17 @@ module.exports = (app) => {
   app.delete(`${base_url}/banners/:id`, deleteBanner);
 
   //home
-  app.get(`${base_url}/home/:id`, home)
+  app.get(`${base_url}/home/:id`, home);
 
-  app.post(`${base_url}/auth/login`, authLogin)
-  app.post(`${base_url}/auth/register`, register)
+  app.post(`${base_url}/auth/login`, authLogin);
+  app.post(`${base_url}/auth/register`, register);
 
-  const gen_token = require('../helper/generate-token')
+  const gen_token = require('../helper/generate-token');
   app.post(`${base_url}/gen-access-token`, (req, res) => {
-    const { refresh_token } = req.body
+    const { refresh_token } = req.body;
     gen_token(refresh_token, (err, acces_token) => {
-      if (err) return res.status(401).json({ status: false, msg: "Unauthorized" });
-      res.status(200).json({status: true, acces_token})
-    })
-  })
+      if (err) return res.status(401).json({ status: false, msg: 'Unauthorized' });
+      res.status(200).json({ status: true, acces_token });
+    });
+  });
 };

@@ -1,5 +1,5 @@
 const {Users} = require('../database/models');
-const { decrypt } = require('../helper/bcrypt');
+const { decrypt, encrypt } = require('../helper/bcrypt');
 const jwt = require('jsonwebtoken')
 
 const authLogin = async (req, res) => {
@@ -28,7 +28,8 @@ const authLogin = async (req, res) => {
         })
 }
 
-const register =  (req, res) => {
+const register = (req, res) => {
+    req.body.password = encrypt(req.body.password)
     Users.create(req.body)
     .then(() => res.status(201).json({ status: true, msg: 'Registrasi berhasil' }))
     .catch((err) => {

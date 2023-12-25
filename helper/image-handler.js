@@ -32,19 +32,19 @@ module.exports = {
       return res.status(400).json({status: false, msg: 'thumbnail atau source yang diinputkan harus image atau video'})
     }
 
-    keyFiles.forEach(async key => {
-      const {path, filename, mimetype} = req.files[key][0]
-      const folder = mimetype.includes('image') ? 'images' : 'videos'
+    // keyFiles.forEach(async key => {
+    //   const {path, filename, mimetype} = req.files[key][0]
+    //   const folder = mimetype.includes('image') ? 'images' : 'videos'
       
-      bucket.upload(path, {destination: `${folder}/${filename}`}, (err, file) => {
-        if(err) {
-          console.log(err);
-          res.status(500).send("Server Error");
-          return;
-        }
-        fs.unlinkSync(path)
-      })
-    })
+    //   bucket.upload(path, {destination: `${folder}/${filename}`}, (err, file) => {
+    //     if(err) {
+    //       console.log(err);
+    //       res.status(500).send("Server Error");
+    //       return;
+    //     }
+    //     fs.unlinkSync(path)
+    //   })
+    // })
 
     next()
   }

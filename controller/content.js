@@ -1,5 +1,5 @@
 const { Contents, Products } = require("../database/models");
-const { Op } = require("sequelize");
+const fs = require("fs");
 const { queryContent } = require("../helper/model-recomendation");
 const { image_reconition } = require("../helper/model-image");
 
@@ -51,7 +51,7 @@ const searchContentByImage = async (req, res) => {
       Contents.findAll()
         .then(async (data) => {
           const response = await queryContent(predict, data);
-          // console.log(response);
+          fs.unlinkSync(req.file.path);
           res.status(200).json(response);
         })
         .catch((err) => {
@@ -61,7 +61,7 @@ const searchContentByImage = async (req, res) => {
     } else {
       res.status(500).json();
     }
-    // const inputTensor = tf.
+    // // const inputTensor = tf.
   } catch (error) {
     console.log(`Error: ${error}`);
   }

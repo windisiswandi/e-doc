@@ -726,12 +726,10 @@
         "tags": ["Content"],
         "summary": "Cari konten berdasarkan gambar [maintenance]",
         "description": "Mencari konten berdasarkan gambar [maintenance]",
-        "consumes": ["multipart/form-data"],
-        "produces": ["application/json"],
         "requestBody": {
           "description": "Objek gambar yang akan dicari",
           "content": {
-            "application/x-www-form-urlencoded": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
